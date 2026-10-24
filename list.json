@@ -25,5 +25,17 @@
     "name": "DNSキャッシュを削除",
     "shell": "cmd",
     "code": "ipconfig /flushdns"
+  },
+  {
+    "name": "コマンド集を更新 (sリポジトリ)",
+    "shell": "ps",
+    "note": "自分のPC用。list.jsonや.ps1を編集したらこれ。反映まで数分かかることあり。",
+    "code": "cd C:\\dev\\s\ngit add .\ngit commit -m \"update scripts\"\ngit push"
+  },
+  {
+    "name": "コマンド集ページを更新 (pcqq-site)",
+    "shell": "ps",
+    "note": "自分のPC用。/cmd/ のページ自体を直した時だけ。push で本番デプロイ（15クレジット）。",
+    "code": "cd C:\\dev\\pcqq-site\ngit add public/cmd/index.html\ngit commit -m \"update /cmd page\"\ngit push"
   }
 ]
