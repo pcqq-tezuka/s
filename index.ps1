@@ -5,7 +5,7 @@
 $base = 'https://pc-qq.net/s'
 
 try {
-    $json = Invoke-RestMethod "$base/list.json"
+    $json = Invoke-RestMethod "$base/list.json?t=$([DateTime]::Now.Ticks)"
     if ($json -is [string]) { $json = $json | ConvertFrom-Json }
     $items = @($json | ForEach-Object { $_ })
 } catch {
