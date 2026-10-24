@@ -29,11 +29,17 @@ while ($true) {
     if (-not $n -or $n -lt 1 -or $n -gt $items.Count) { continue }
     $it = $items[$n - 1]
 
-    try { $code = Invoke-RestMethod "$base/$($it.file)" }
-    catch { Write-Host "取得失敗: $($it.file)" -ForegroundColor Red; Read-Host 'Enterで戻る' | Out-Null; continue }
+    if ($it.file) {
+        try { $code = Invoke-RestMethod "$base/$($it.file)" }
+        catch { Write-Host "取得失敗: $($it.file)" -ForegroundColor Red; Read-Host 'Enterで戻る' | Out-Null; continue }
+    } else {
+        $code = $it.code
+    }
 
     if ($view) {
         Write-Host $code
+    } elseif ($it.shell -eq 'cmd') {
+        cmd /c $code
     } else {
         $r = if ($it.revert) { 1 } else { $null }
         & ([scriptblock]::Create($code))
