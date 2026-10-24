@@ -1,27 +1,29 @@
 [
   {
     "name": "ゲスト共有を有効化 (SMBクライアント側)",
-    "file": "guest.ps1",
     "shell": "ps",
     "admin": true,
-    "note": "Win11 24H2でパスワードなし共有に繋がらない時。"
+    "note": "Win11 24H2でパスワードなし共有に繋がらない時。Getで False / True ならOK。",
+    "code": "Set-SmbClientConfiguration -EnableInsecureGuestLogons $true -RequireSecuritySignature $false -Force\nGet-SmbClientConfiguration | fl RequireSecuritySignature,EnableInsecureGuestLogons\nnet use * /delete /y",
+    "file": "guest.ps1"
   },
   {
     "name": "ゲスト共有を元に戻す",
-    "file": "guest.ps1",
-    "revert": true,
     "shell": "ps",
     "admin": true,
-    "note": "24H2既定（ゲスト不可・署名必須）に戻す。"
+    "note": "24H2既定（ゲスト不可・署名必須）に戻す。",
+    "code": "Set-SmbClientConfiguration -EnableInsecureGuestLogons $false -RequireSecuritySignature $true -Force\nRemove-ItemProperty HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\LanmanWorkstation -Name AllowInsecureGuestAuth -ErrorAction SilentlyContinue",
+    "file": "guest.ps1",
+    "revert": true
   },
   {
     "name": "IP設定を全部表示",
-    "code": "ipconfig /all",
-    "shell": "cmd"
+    "shell": "cmd",
+    "code": "ipconfig /all"
   },
   {
     "name": "DNSキャッシュを削除",
-    "code": "ipconfig /flushdns",
-    "shell": "cmd"
+    "shell": "cmd",
+    "code": "ipconfig /flushdns"
   }
 ]
